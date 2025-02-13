@@ -60,6 +60,11 @@ begin
         -- Test 4: Maximum Values (Overflow)
         -- w_addends <= x"FF"; w_Cin <= '1'; wait for 10 ns;
            --  assert (w_sum = x"00" and w_Cout = '1') report "maximum value addition" severity failure;
+		
+		-- Test 4: Maximum Values (Overflow)
+        w_addends <= x"0F"; w_Cin <= '0F'; wait for 10 ns;
+           assert (w_sum = x"0E" and w_Cout = '1') report "maximum value addition" severity failure;
+		
 		wait; -- wait forever
 	end process;	
 	-----------------------------------------------------	
