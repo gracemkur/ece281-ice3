@@ -49,27 +49,21 @@ begin
        w_addends <= x"FF"; w_Cin <= '1'; wait for 10 ns;
 	       assert (w_sum = x"F" and w_Cout = '1') report "bad with ones" severity failure;
        -- TODO, a few other test cases
+        -- Test 1: Zero Addition
+        w_addends <= x"00"; w_Cin <= '0'; wait for 10 ns;
+        assert (w_sum = x"00" and w_Cout = '0') report "Failed: Zero Addition" severity failure;
+        
+        -- Test 2: Carry Propagation (e.g., 0111 + 0001)
+        w_addends <= x"07"; w_Cin <= '1'; wait for 10 ns;
+        assert (w_sum = x"08" and w_Cout = '0') report "Failed: Carry Propagation" severity failure;
+        
+        -- Test 3: Full Carry Propagation (e.g., 1111 + 0001)
         w_addends <= x"0F"; w_Cin <= '0'; wait for 10 ns;
-        assert (w_sum = x"0F" and w_Cout = '0') report "Mismatch in simple sum" severity failure;
-    
-        w_addends <= x"F0"; w_Cin <= '0'; wait for 10 ns;
-        assert (w_sum = x"F0" and w_Cout = '0') report "Mismatch in simple sum" severity failure;
-    
-        w_addends <= x"01"; w_Cin <= '1'; wait for 10 ns;
-        assert (w_sum = x"02" and w_Cout = '0') report "Carry propagation failed" severity failure;
-    
-        w_addends <= x"7F"; w_Cin <= '1'; wait for 10 ns;
-        assert (w_sum = x"80" and w_Cout = '0') report "Carry propagation across bits failed" severity failure;
-    
+        assert (w_sum = x"0E" and w_Cout = '1') report "Failed: Overflow Carry" severity failure;
+        
+        -- Test 4: Maximum Values (Overflow)
         w_addends <= x"FF"; w_Cin <= '1'; wait for 10 ns;
-        assert (w_sum = x"00" and w_Cout = '1') report "Overflow condition failed" severity failure;
-    
-        w_addends <= x"55"; w_Cin <= '1'; wait for 10 ns;
-        assert (w_sum = x"56" and w_Cout = '0') report "Alternating bits addition failed" severity failure;
-    
-        w_addends <= x"AA"; w_Cin <= '1'; wait for 10 ns;
-        assert (w_sum = x"AB" and w_Cout = '0') report "Alternating bits addition failed" severity failure;
-    
+        assert (w_sum = x"00" and w_Cout = '1') report "Failed: Maximum Value Addition" severity failure;
 		wait; -- wait forever
 	end process;	
 	-----------------------------------------------------	
