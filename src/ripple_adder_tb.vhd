@@ -57,8 +57,9 @@ begin
            assert (w_sum = x"8" and w_Cout = '1') report "carry test failed" severity failure;
        -- Test asymmetric inputs
        w_addends <= x"36"; w_Cin <= '0'; wait for 10 ns;
-           assert (w_sum = x"9" and w_Cout = '0') report "asymmetric addition failed" severity failure;
-
+           assert (w_sum = x"9" and w_Cout = '0') report "addition failed" severity failure;
+       w_addends <= x"FF"; w_Cin <= '0'; wait for 10 ns;
+           assert (w_sum = x"8" and w_Cout = '1') report "addition failed" severity failure;
 		wait; -- wait forever
 	end process;	
 	-----------------------------------------------------	
